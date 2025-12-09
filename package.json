@@ -1,0 +1,22 @@
+{
+  "name": "playwright_course",
+  "version": "1.0.0",
+  "description": "ABCD",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakubvyhnalek1989/playwright_course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakubvyhnalek1989/playwright_course/issues"
+  },
+  "homepage": "https://github.com/jakubvyhnalek1989/playwright_course#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.2"
+  }
+}
