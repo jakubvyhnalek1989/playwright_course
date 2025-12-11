@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -22,35 +22,54 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [["html"], ["list"]],
+  timeout: 60_000, // ? Maximální doba běhu testu (výchozí hodnota: 30_000 ms)
+  expect: {
+    timeout: 7_000, // ? Maximální doba čekání v rámci expect() (výchozí: 5_000 ms)
+  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    actionTimeout: 7_000, // ? Nastavení maximální doby provádění interakce (click, fill, check...) - Výchozí hodnota: nenastaveno
+    navigationTimeout: 30_000, // ? Maximální doba otevírání stránky (goto), výchozí hodnota: nenastaveno
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+    video: "off",
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
     },
-
-  
+    // * Vzorový projekt s nízkým rozlišením v Chrome
+    // {
+    //   name: "chromium:low-res",
+    //   use: {
+    //     ...devices["Desktop Chrome"],
+    //     viewport: {
+    //       width: 800,
+    //       height: 600,
+    //     },
+    //   },
+    // },
+    /*
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
 
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
- 
-
+    */
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

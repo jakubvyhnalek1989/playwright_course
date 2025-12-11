@@ -42,3 +42,21 @@ test("toHaveValue", async ({ page }) => {
   ); //ověří, že input má hodnotu, dá locatoru custom name, ať to v logu poznám
 });
 
+test("softAssert", async ({ page }) => {
+  await page.goto("https://tredgate.com/pmtool");
+  expect
+    .soft(page.locator('[class="form-title"]'), "Logo nad loginem")
+    .toHaveText("Logon"); //soft assertion - test pokračuje i při neúspěchu
+  await page.locator("#username").fill("playwright_jaro24");
+  await page.locator("#password").fill("Playwright!2024");
+  await page.locator('[type="submit"]').click();
+});
+
+test("negative assert", async ({ page }) => {
+  await page.goto("https://tredgate.com/pmtool");
+  await expect(page.locator("#username")).toBeVisible();
+    await page.locator("#username").fill("sdfdsf");
+  await page.locator("#password").fill("sdfdfd!2024");
+  await page.locator('[type="submit"]').click();
+  await expect(page.locator('[class="alert alert-danger"]'), "Login error").not.toBeVisible(); //ověří, že input má hodnotu, dá locatoru custom name, ať to v logu poznám
+});
